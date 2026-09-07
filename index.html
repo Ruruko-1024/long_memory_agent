@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>可信项目记忆层 · 产品原型</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <h1>可信项目记忆层 · 交互原型</h1>
+  <p class="tagline">面向多项目并行的知识工作者，以「项目」为单位沉淀对话中产生的决策理由与口径——每条记忆写入前经用户确认、调用时可溯源、出错后可纠正并全局生效。</p>
+  <div class="who">
+    <span class="chip">用户 <b>陈立</b>｜某公募基金美股研究员</span>
+    <span class="chip">并行项目 <b>A 公司</b>、<b>B 公司</b></span>
+    <span class="chip">研究跨度 <b>11 周</b></span>
+  </div>
+</header>
+
+<div class="grid">
+  <!-- ============ 左：会话区 ============ -->
+  <div class="card">
+    <h2>对话 <span class="n">点击时点按钮按剧本演进，或直接输入</span></h2>
+
+    <div class="steps" id="steps"></div>
+    <div class="scenebar" id="scene"></div>
+    <div class="chat" id="chat"></div>
+
+    <div class="inbar">
+      <input id="inp" placeholder="输入消息，例如：这条记错了，阈值应该是 20%">
+      <button onclick="send()">发送</button>
+    </div>
+    <p class="hint">机制演示要点：事实类记忆<b>写入前必经确认</b>；回答中每个来自记忆的事实都带<b>可点角标</b>（来源、时间、版本、确认状态）；低置信记忆<b>不自动调用</b>；纠正后<b>旧版本归档可追溯</b>。</p>
+  </div>
+
+  <!-- ============ 右：记忆库 ============ -->
+  <div>
+    <div class="card" style="margin-bottom:14px">
+      <h2>项目记忆库 <span class="n" id="memN">0 条</span></h2>
+      <div class="projsel" id="projsel"></div>
+      <div class="gate" id="gate"></div>
+      <div id="memList"><p class="empty">暂无记忆</p></div>
+    </div>
+    <div class="card">
+      <h2>机制日志</h2>
+      <div class="log" id="log"></div>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- 溯源弹窗 -->
+<div class="mask" id="mask" onclick="if(event.target===this)closeM()">
+  <div class="modal">
+    <h3><span>记忆溯源</span><button onclick="closeM()">✕</button></h3>
+    <dl class="kv" id="mkv"></dl>
+    <div class="vhist" id="mvh"></div>
+  </div>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
