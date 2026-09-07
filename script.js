@@ -1,11 +1,4 @@
-/* ============================================================
-   script.js — 可信项目记忆层 · 交互原型
-   模块顺序：数据模型 → 记忆增删改 → 渲染 → 溯源弹窗
-             → 消息气泡 → 五个时点剧本 → 自由输入 → 初始化
-   无第三方依赖，记忆存于内存数组 mems[]
-   ============================================================ */
-
-/* ================= 数据 ================= */
+// ---- 数据模型 ----
 const PROJ = {A:'A 公司（美股·云业务）', B:'B 公司（美股·供应链）'};
 let cur = 'A', seq = 0;
 const mems = [];        // 记忆库
@@ -15,10 +8,10 @@ const $ = id => document.getElementById(id);
 const now = () => new Date().toLocaleString('zh-CN',{hour12:false,month:'2-digit',day:'2-digit',
               hour:'2-digit',minute:'2-digit'});
 
-/* ================= 日志 ================= */
+// ---- 机制日志 ----
 function log(t){ $('log').innerHTML = '· ' + t + '<br>' + $('log').innerHTML; }
 
-/* ================= 记忆操作 ================= */
+// ---- 记忆增删改 ----
 function addMem({text, type, proj, src, status='pend', conf='高', reason=''}){
   const m = {id:++seq, text, type, proj, src, status, conf, reason,
              time:now(), ver:1, hist:[]};
@@ -45,7 +38,7 @@ function correctMem(id, newText, why){
   if(why) log(`纠错原因记录：${why}`);
 }
 
-/* ================= 渲染记忆库 ================= */
+// ---- 记忆库渲染 ----
 function renderMem(){
   $('projsel').innerHTML = Object.keys(PROJ).map(k=>
     `<button class="${k===cur?'on':''}" onclick="switchProj('${k}')">${PROJ[k].split('（')[0]}</button>`).join('');
@@ -69,7 +62,7 @@ function renderMem(){
 }
 function switchProj(k){ cur=k; renderMem(); log(`切换至项目 <b>${PROJ[k].split('（')[0]}</b>：默认仅调用本项目记忆`); }
 
-/* ================= 溯源弹窗 ================= */
+// ---- 溯源弹窗 ----
 function openM(id){
   const m = mems.find(x=>x.id===id); if(!m) return;
   $('mkv').innerHTML = `
@@ -89,7 +82,7 @@ function openM(id){
 }
 function closeM(){ $('mask').classList.remove('on'); }
 
-/* ================= 消息渲染 ================= */
+// ---- 消息气泡 ----
 function bubble(role, html, lead){
   const d = document.createElement('div');
   d.className = 'msg ' + (role==='u'?'u':'a') + (html.indexOf('class="confirm"')>-1?' wide':'');
@@ -120,7 +113,7 @@ function askConfirm(m, q){
   return d;
 }
 
-/* ================= 剧本 ================= */
+// ---- 时点剧本 ----
 const STEPS = [
   {k:'w1', t:'Week 1', d:'建立框架'},
   {k:'w3', t:'Week 3', d:'例外判断'},
@@ -262,7 +255,7 @@ function bumpStale(){
     log('关联记忆 <b>M'+m.id+'</b> 因依据变化降为低置信 → 不再自动注入，仅提示可能已过期'); }
 }
 
-/* ================= 自由输入 ================= */
+// ---- 自由输入 ----
 function send(){
   const v = $('inp').value.trim(); if(!v) return; $('inp').value='';
   bubble('u', v);
@@ -294,7 +287,7 @@ function send(){
 }
 $('inp').addEventListener('keydown',e=>{ if(e.key==='Enter') send(); });
 
-/* ================= 初始化 ================= */
+// ---- 初始化 ----
 $('steps').innerHTML = STEPS.map(s=>
   `<button class="step" data-k="${s.k}" onclick="goto('${s.k}')"><b>${s.t}</b>${s.d}</button>`).join('');
 goto('w1');
