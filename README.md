@@ -2,7 +2,7 @@
 
 以「项目」为单位沉淀对话中产生的决策理由与口径：记忆写入前经用户确认、调用时可溯源、出错后可纠正并全局生效。
 
-在线访问：<https://ruruko-1024.github.io/long_memory_agent/>
+在线访问：https://ruruko-1024.github.io/long_memory_agent/
 
 ## 演示路径
 
